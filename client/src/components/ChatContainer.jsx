@@ -57,6 +57,7 @@ export default function ChatContainer({ currentChat, currentUser, socket }) {
       });
     }
   }, [socket]);
+  
 
   useEffect(() => {
     console.log(arrivalMessage);
