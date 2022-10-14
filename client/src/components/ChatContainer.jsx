@@ -10,7 +10,6 @@ export default function ChatContainer({ currentChat, currentUser, socket }) {
   const [arrivalMessage, setArrivalMessage] = useState(null);
 
   const scrollRef = useRef();
-
   useEffect(() => {
     if (currentChat) {
       async function loadChats() {
@@ -52,7 +51,7 @@ export default function ChatContainer({ currentChat, currentUser, socket }) {
   useEffect(() => {
     if (socket.current) {
       socket.current.on("msg-receive", (data) => {
-        const currChatId = JSON.parse(localStorage.getItem(process.env.CURR_CHAT_ID))._id;
+        const currChatId = JSON.parse(localStorage.getItem(process.env.REACT_APP_CURR_CHAT))._id;
         if(data.from === currChatId)
             setArrivalMessage({ fromSelf: false, message: data.message , fromData: data.from, currChatId : currChatId});
       });
@@ -60,6 +59,7 @@ export default function ChatContainer({ currentChat, currentUser, socket }) {
   }, [socket]);
 
   useEffect(() => {
+    console.log(arrivalMessage);
     arrivalMessage && setMessages((prev) => [...prev, arrivalMessage]);
   }, [arrivalMessage]);
 

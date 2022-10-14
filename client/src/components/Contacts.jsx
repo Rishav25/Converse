@@ -16,7 +16,7 @@ export default function Contacts({ contacts, currentUser, changeChat }) {
   }, [currentUser,contacts]);
 
   const changeCurrentChat = async (index, contact)=>{
-    localStorage.setItem(process.env.CURR_CHAT_ID,JSON.stringify(contact));
+    await localStorage.setItem(process.env.REACT_APP_CURR_CHAT,JSON.stringify(contact));
     setCurrentSelected(index);
     changeChat(contact);
   };
