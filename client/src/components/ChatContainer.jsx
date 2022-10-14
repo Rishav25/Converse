@@ -22,7 +22,16 @@ export default function ChatContainer({ currentChat, currentUser, socket }) {
       }
       loadChats();
     }
-  }, [currentChat]);
+  }, [currentChat,currentUser]);
+
+  useEffect(()=>{
+    const getCurrentChat = async () =>{
+        if(currentChat){
+            await JSON.parse(localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY))._id;
+        }
+    }
+    getCurrentChat();
+  },[currentChat]);
 
   const handleSendMessage = async (message) => {
     socket.current.emit("send-msg", {
@@ -42,14 +51,15 @@ export default function ChatContainer({ currentChat, currentUser, socket }) {
 
   useEffect(() => {
     if (socket.current) {
-      socket.current.on("msg-receive", (message) => {
-        setArrivalMessage({ fromSelf: false, message: message });
+      socket.current.on("msg-receive", (data) => {
+        const currChatId = JSON.parse(localStorage.getItem(process.env.CURR_CHAT_ID))._id;
+        if(data.from === currChatId)
+            setArrivalMessage({ fromSelf: false, message: data.message , fromData: data.from, currChatId : currChatId});
       });
     }
   }, [socket]);
 
   useEffect(() => {
-    console.log(arrivalMessage);
     arrivalMessage && setMessages((prev) => [...prev, arrivalMessage]);
   }, [arrivalMessage]);
 
