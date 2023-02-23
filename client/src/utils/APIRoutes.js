@@ -1,4 +1,4 @@
-export const host = "https://converse-by-rishav.herokuapp.com";
+export const host = "https://converse-by-rishav.onrender.com";
 export const registerRoute = `${host}/api/auth/register`;
 export const loginRoute = `${host}/api/auth/login`;
 export const logoutRoute = `${host}/api/auth/logout`;
