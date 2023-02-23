@@ -8,47 +8,8 @@ Converse is a full stack application which enables users to register/login to th
 
 ## Demo
 
-https://user-images.githubusercontent.com/75539207/221042457-eb7e4c62-3928-4550-8ff8-505c39243825.mp4]
+![ezgif com-video-to-gif](https://user-images.githubusercontent.com/75539207/221046178-87ed5c5d-290d-47fa-bbe0-e5063487db42.gif)
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-https://user-images.githubusercontent.com/75539207/221043046-87258b9c-fd7d-47e0-9b1c-33ceeacf813c.mp4
-
+![ezgif com-video-to-gif(2)](https://user-images.githubusercontent.com/75539207/221046829-fd31750e-7ff1-4a3e-9272-7680340d08c7.gif)
