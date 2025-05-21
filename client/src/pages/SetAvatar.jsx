@@ -4,13 +4,13 @@ import styled from "styled-components";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
-import { Buffer } from "buffer";
+import multiavatar from "@multiavatar/multiavatar/esm";
+import parse from "html-react-parser";
 
 import { setAvatarRoute } from "../utils/APIRoutes";
 import loader from "../assets/loader.gif";
 
 export default function SetAvatar() {
-  const api = "https://api.multiavatar.com/45678945";
   const navigate = useNavigate();
 
   const [avatars, setAvatars] = useState([]);
@@ -59,12 +59,9 @@ export default function SetAvatar() {
     (async () => {
       const data = [];
       for (let i = 0; i < 4; i++) {
-        const image = await axios.get(
-          `${api}/${Math.round(Math.random() * 1000)}`
-        );
-
-        const buffer = new Buffer(image.data);
-        data.push(buffer.toString("base64"));
+        const id = Math.round(Math.random() * 1000000);
+        const image = multiavatar(id);
+        data.push(image);
       }
       setAvatars(data);
       setIsLoading(false);
@@ -94,12 +91,14 @@ export default function SetAvatar() {
                     selectedAvatar === index ? "selected" : ""
                   }`}
                 >
-                  <img
-                    src={`data:image/svg+xml;base64,${avatar}`}
-                    alt="avatar"
-                    key={avatar}
-                    onClick={() => setSelectedAvatar(index)}
-                  />
+                  <div
+                    className="avatar"
+                    onClick={() => {
+                      setSelectedAvatar(index);
+                    }}
+                  >
+                    {parse(avatar)}
+                  </div>
                 </div>
               );
             })}
@@ -142,9 +141,8 @@ const Container = styled.div`
       justify-content: center;
       align-items: center;
       transition: 0.5s ease-in-out;
-      img {
-        height: 6rem;
-      }
+      height: 10rem;
+      width: 10rem;
     }
     .selected {
       border: 0.4rem solid #4e0eff;

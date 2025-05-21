@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Logo from "../assets/logo.png";
+import parse from "html-react-parser";
 
 export default function Contacts({ contacts, currentUser, changeChat }) {
-
   const [currentUserName, setCurrentUserName] = useState(undefined);
   const [currentUserImage, setCurrentUserImage] = useState(undefined);
   const [currentSelected, setCurrentSelected] = useState(undefined);
@@ -13,14 +13,16 @@ export default function Contacts({ contacts, currentUser, changeChat }) {
       setCurrentUserImage(currentUser.avatarImage);
       setCurrentUserName(currentUser.username);
     }
-  }, [currentUser,contacts]);
-  
-  const changeCurrentChat = async (index, contact)=>{
-    await localStorage.setItem(process.env.REACT_APP_CURR_CHAT,JSON.stringify(contact));
+  }, [currentUser, contacts]);
+
+  const changeCurrentChat = async (index, contact) => {
+    await localStorage.setItem(
+      process.env.REACT_APP_CURR_CHAT,
+      JSON.stringify(contact)
+    );
     setCurrentSelected(index);
     changeChat(contact);
   };
-
 
   return (
     <>
@@ -40,29 +42,16 @@ export default function Contacts({ contacts, currentUser, changeChat }) {
                   }`}
                   onClick={() => changeCurrentChat(index, contact)}
                 >
-                  <div className="avatar">
-                    <img
-                      src={`data:image/svg+xml;base64,${contact.avatarImage}`}
-                      alt=""
-                    />
-                  </div>
+                  <div className="avatar">{parse(contact.avatarImage)}</div>
                   <div className="username">
                     <h3>{contact.username}</h3>
                   </div>
                 </div>
               );
             })}
-
-            
-
           </div>
           <div className="current-user">
-            <div className="avatar">
-              <img
-                src={`data:image/svg+xml;base64,${currentUserImage}`}
-                alt="avatar"
-              />
-            </div>
+            <div className="avatar">{parse(currentUserImage)}</div>
             <div className="username">
               <h2>{currentUserName}</h2>
             </div>
@@ -117,9 +106,8 @@ const Container = styled.div`
       align-items: center;
       transition: 0.5s ease-in-out;
       .avatar {
-        img {
-          height: 3rem;
-        }
+        height: 3rem;
+        width: 3rem;
       }
       .username {
         h3 {
@@ -134,14 +122,14 @@ const Container = styled.div`
   .current-user {
     background-color: #0d0d30;
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
     gap: 2rem;
+    padding: 3rem;
     .avatar {
-      img {
-        height: 4rem;
-        max-inline-size: 100%;
-      }
+      height: 4rem;
+      width: 4rem;
+      max-inline-size: 100%;
     }
     .username {
       h2 {

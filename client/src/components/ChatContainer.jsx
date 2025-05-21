@@ -3,6 +3,7 @@ import styled from "styled-components";
 import ChatInput from "./ChatInput";
 import Logout from "./Logout";
 import axios from "axios";
+import parse from "html-react-parser";
 import { v4 as uuidv4 } from "uuid";
 import { receiveMessagesRoute, sendMessageRoute } from "../utils/APIRoutes";
 export default function ChatContainer({ currentChat, currentUser, socket }) {
@@ -21,16 +22,18 @@ export default function ChatContainer({ currentChat, currentUser, socket }) {
       }
       loadChats();
     }
-  }, [currentChat,currentUser]);
+  }, [currentChat, currentUser]);
 
-  useEffect(()=>{
-    const getCurrentChat = async () =>{
-        if(currentChat){
-            await JSON.parse(localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY))._id;
-        }
-    }
+  useEffect(() => {
+    const getCurrentChat = async () => {
+      if (currentChat) {
+        await JSON.parse(
+          localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
+        )._id;
+      }
+    };
     getCurrentChat();
-  },[currentChat]);
+  }, [currentChat]);
 
   const handleSendMessage = async (message) => {
     socket.current.emit("send-msg", {
@@ -51,14 +54,20 @@ export default function ChatContainer({ currentChat, currentUser, socket }) {
   useEffect(() => {
     if (socket.current) {
       socket.current.on("msg-receive", (data) => {
-        const currChatId = JSON.parse(localStorage.getItem(process.env.REACT_APP_CURR_CHAT))._id;
-        if(data.from === currChatId)
-            setArrivalMessage({ fromSelf: false, message: data.message , fromData: data.from, currChatId : currChatId});
+        const currChatId = JSON.parse(
+          localStorage.getItem(process.env.REACT_APP_CURR_CHAT)
+        )._id;
+        if (data.from === currChatId)
+          setArrivalMessage({
+            fromSelf: false,
+            message: data.message,
+            fromData: data.from,
+            currChatId: currChatId,
+          });
       });
     }
   }, [socket]);
 
-  
   useEffect(() => {
     console.log(arrivalMessage);
     arrivalMessage && setMessages((prev) => [...prev, arrivalMessage]);
@@ -72,12 +81,7 @@ export default function ChatContainer({ currentChat, currentUser, socket }) {
     <Container>
       <div className="chat-header">
         <div className="user-details">
-          <div className="avatar">
-            <img
-              src={`data:image/svg+xml;base64,${currentChat.avatarImage}`}
-              alt="avatar"
-            />
-          </div>
+          <div className="avatar">{parse(currentChat.avatarImage)}</div>
           <div className="username">
             <h3>{currentChat.username}</h3>
           </div>
@@ -124,9 +128,8 @@ const Container = styled.div`
       align-items: center;
       gap: 1rem;
       .avatar {
-        img {
-          height: 3rem;
-        }
+        height: 3rem;
+        width: 3rem;
       }
       .username {
         h3 {
