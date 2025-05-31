@@ -1,4 +1,4 @@
-export const host = "https://converse-by-rishav.onrender.com";
+export const host = process.env.REACT_APP_API_URL;
 export const registerRoute = `${host}/api/auth/register`;
 export const loginRoute = `${host}/api/auth/login`;
 export const logoutRoute = `${host}/api/auth/logout`;
